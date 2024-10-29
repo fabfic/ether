@@ -25,6 +25,11 @@ class FiberToExchange(UpDownLink):
     def __init__(self, backhaul='internet') -> None:
         super().__init__(1000, 1000, backhaul, latency.lan)
 
+class CustomConnection(UpDownLink):
+    
+    def __init__(self, bw_down, bw_up=None, backhaul='internet', latency_dist=None):
+        super().__init__(bw_down, bw_up, backhaul, latency_dist)
+
 
 class IoTComputeBox(LANCell):
     pass

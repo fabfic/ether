@@ -126,6 +126,9 @@ def create_nx(name=None) -> Node:
                            'ether.edgerun.io/capabilities/gpu': 'volta',
                        })
 
+def create_custom_node(cpus: int, mem: str, arch: str, labels: Dict[str, str],name=None) -> Node:
+    name = 'custom_node_%d' % next(counters['custom'])
+    return create_node(name,cpus,mem,arch,labels)
 
 def create_node(name: str, cpus: int, mem: str, arch: str, labels: Dict[str, str]) -> Node:
     capacity = Capacity(cpu_millis=cpus * 1000, memory=parse_size_string(mem))

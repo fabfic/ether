@@ -4,7 +4,7 @@ from collections import defaultdict, Iterable
 from typing import Callable, List, Union
 
 from srds import RandomSampler, ConstantSampler, IntegerTruncationSampler, ParameterizedDistribution
-
+import random
 from ether.qos import latency
 from ether.core import Node, Link, NetworkNode
 from ether.topology import Topology, Connection
@@ -166,8 +166,9 @@ class SharedLinkCell(Cell):
 
 class GeoCell(Cell):
 
-    def __init__(self, size, density, nodes) -> None:
+    def __init__(self, size, density, nodes, rand_nodes=False) -> None:
         super().__init__(nodes, size)
+        self.rand_nodes = rand_nodes
         if isinstance(density, int):
             self.density = ConstantSampler(density)
         elif isinstance(density, RandomSampler):
@@ -177,14 +178,48 @@ class GeoCell(Cell):
 
     def materialize(self, topology: Topology, parent=None):
         for i in range(self.size):
-            n = self.density.sample()
+            
+            if self.rand_nodes:
+                n = random.randint(1, self.density.toInt())
+            else:
+                n = self.density.sample()
 
             for c in self.nodes:
                 if callable(c):
                     sig: inspect.Signature = inspect.signature(c)
                     # TODO: correctly propagate parameters
-                    if len(sig.parameters) > 0:
-                        c = c(n)
+                    if len(sig.parameters) > 0: #size is a parameter
+                        c = c(n) #-> neighborhood[n] -> inizializza Cluster([nodes])
                     else:
                         c = c()
                 self._materialize(topology, c)
+
+class Cluster(Cell):
+    def __init__(self, nodes=None, size=None, entropy=None, backhaul=None):
+        super().__init__(nodes=nodes, backhaul=backhaul)
+
+    def _create_identity(self):
+        self.nr = next(counters['cluster'])
+        self.name = 'cluster_%d' % self.nr
+
+    def materialize(self, topology: Topology, parent=None):
+        self._create_identity()
+
+        for cell in self.nodes:
+            self._materialize(topology, cell, self.name)
+
+        if self.backhaul:
+            if isinstance(self.backhaul, UpDownLink):
+                uplink = Link(self.backhaul.bw_up, tags={'type': 'uplink', 'name': 'up_%s' % self.name})
+                downlink = Link(self.backhaul.bw_down, tags={'type': 'downlink', 'name': 'down_%s' % self.name})
+
+                topology.add_connection(Connection(self.name, uplink, latency_dist=self.backhaul.latency_dist),
+                                        directed=True)
+                topology.add_connection(Connection(downlink, self.name), directed=True)
+
+                topology.add_connection(Connection(self.backhaul.backhaul, downlink,
+                                                   latency_dist=self.backhaul.latency_dist), directed=True)
+                topology.add_connection(Connection(uplink, self.backhaul.backhaul), directed=True)
+
+            else:
+                topology.add_connection(Connection(self.name, self.backhaul, latency_dist=latency.lan))
