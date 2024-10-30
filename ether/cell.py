@@ -168,6 +168,7 @@ class GeoCell(Cell):
 
     def __init__(self, size, density, nodes, rand_nodes=False) -> None:
         super().__init__(nodes, size)
+        self.max_num_nodes: int = density
         self.rand_nodes = rand_nodes
         if isinstance(density, int):
             self.density = ConstantSampler(density)
@@ -180,7 +181,7 @@ class GeoCell(Cell):
         for i in range(self.size):
             
             if self.rand_nodes:
-                n = random.randint(1, self.density.toInt())
+                n = random.randint(1, self.max_num_nodes)
             else:
                 n = self.density.sample()
 
