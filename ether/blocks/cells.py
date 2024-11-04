@@ -27,7 +27,7 @@ class FiberToExchange(UpDownLink):
 
 class CustomConnection(UpDownLink):
     
-    def __init__(self, bw_down, bw_up=None, backhaul='internet', latency_dist=None):
+    def __init__(self, bw_down, bw_up, latency_dist,backhaul='internet'):
         super().__init__(bw_down, bw_up, backhaul, latency_dist)
 
 

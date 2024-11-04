@@ -42,10 +42,10 @@ def main():
     # bw_dw = 385
     # #Upload bandwidth
     # bw_up = 125
-    # #Backhaul name
+    # #Backhaul name, it must start with 'internet'
     # backhaul = 'internet_custom'
 
-    # CLOUD_CLUSTER_CONNECTION: UpDownLink = CustomConnection(bw_dw, bw_up, backhaul, latency_distribution)
+    # CLOUD_CLUSTER_CONNECTION: UpDownLink = CustomConnection(bw_dw, bw_up, latency_distribution,backhaul)
     
     ########################################
 

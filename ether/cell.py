@@ -189,8 +189,8 @@ class GeoCell(Cell):
                 if callable(c):
                     sig: inspect.Signature = inspect.signature(c)
                     # TODO: correctly propagate parameters
-                    if len(sig.parameters) > 0: #size is a parameter
-                        c = c(n) #-> neighborhood[n] -> inizializza Cluster([nodes])
+                    if len(sig.parameters) > 0:
+                        c = c(n)
                     else:
                         c = c()
                 self._materialize(topology, c)
