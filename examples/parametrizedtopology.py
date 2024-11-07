@@ -23,7 +23,7 @@ NODE_RANGE: int = 10
 #Max range of clusters
 CLUSTER_RANGE: int  = 10
 #Specify if the number of nodes varies from cluster to cluster
-RAND_NUM_NODES: bool = False
+RAND_NUM_NODES: bool = True
 
 def main():
     topology = Topology()
@@ -45,7 +45,7 @@ def main():
     # #Backhaul name, it must start with 'internet'
     # backhaul = 'internet_custom'
 
-    # CLOUD_CLUSTER_CONNECTION: UpDownLink = CustomConnection(bw_dw, bw_up, latency_distribution,backhaul)
+    # CLOUD_CLUSTER_CONNECTION: UpDownLink = CustomConnection(bw_dw, bw_up, latency_distribution, backhaul)
     
     ########################################
 
@@ -66,11 +66,11 @@ def main():
 
     ########################################
     
-    #Fixed type of node
-    neighborhood = lambda size: Cluster(
-        nodes= [DEFAULT_NODE_TYPE] * size,
-        backhaul=CLOUD_CLUSTER_CONNECTION
-    )
+    # #Fixed type of node
+    # neighborhood = lambda size: Cluster(
+    #     nodes= [DEFAULT_NODE_TYPE] * size,
+    #     backhaul=CLOUD_CLUSTER_CONNECTION
+    # )
 
     ########################################
 
@@ -83,12 +83,12 @@ def main():
 
     ########################################
 
-    #Fixed number of node and clusters
-    city = GeoCell(
-        GEOCELL_SIZE, 
-        nodes=[neighborhood], 
-        density = NUM_NODES_PER_CLUSTER
-        )
+    # #Fixed number of node and clusters
+    # city = GeoCell(
+    #     GEOCELL_SIZE, 
+    #     nodes=[neighborhood], 
+    #     density = NUM_NODES_PER_CLUSTER
+    #     )
     
     ########################################
     
@@ -103,6 +103,48 @@ def main():
 
     ########################################
 
+    #Comment this out if you're using unique clusters down below
+    #topology.add(city)
+
+    ########################################
+
+    #Setup unique clusters -> Each cluster has a unique type and number of nodes
+
+    #Cluster with fixed type of nodes
+    neighborhood = lambda size: Cluster(
+        nodes= [DEFAULT_NODE_TYPE] * size,
+        backhaul=CLOUD_CLUSTER_CONNECTION
+    )
+    city = GeoCell(
+        size = 1,
+        nodes = [neighborhood],
+        density = random.randint(1, NODE_RANGE),
+        rand_nodes = RAND_NUM_NODES
+    )
+    topology.add(city)
+
+    #Cluster with custom type of nodes (scaled by size)
+    neighborhood = lambda size: Cluster(
+        nodes=[nodes.rpi3, nodes.rpi4, nodes.tx2] * size,
+        backhaul=CLOUD_CLUSTER_CONNECTION
+    )
+    city = GeoCell(
+        1, 
+        nodes=[neighborhood], 
+        density = NUM_NODES_PER_CLUSTER
+        )
+    topology.add(city)
+
+    #Cluster with custom type and quantity of nodes
+    neighborhood = lambda size: Cluster(
+        nodes=[[nodes.nuc]*3, [nodes.rpi4]*2, nodes.tx2],
+        backhaul=CLOUD_CLUSTER_CONNECTION
+    )
+    city = GeoCell(
+        1, 
+        nodes=[neighborhood], 
+        density = NUM_NODES_PER_CLUSTER
+        )
     topology.add(city)
 
     ########################################
