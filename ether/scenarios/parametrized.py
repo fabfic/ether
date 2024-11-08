@@ -1,4 +1,3 @@
-import matplotlib.pyplot as plt
 from srds import ParameterizedDistribution as PDist
 import random
 
@@ -8,7 +7,6 @@ from ether.blocks.cells import *
 from ether.cell import *
 from ether.core import Node
 from ether.topology import Topology
-from ether.vis import draw_basic
 
 #Connection type between the Cloud and the first-layer clusters
 CLOUD_CLUSTER_CONNECTION: UpDownLink = FiberToExchange()
@@ -37,8 +35,7 @@ class ParametrizedScenario:
     with instance level parameters
     '''
 
-    def getTopology(self) -> Topology:
-        topology = Topology()
+    def materialize(self,topology: Topology):
         
         ########################################
 
