@@ -29,10 +29,10 @@ class ParametrizedScenario:
 
     '''
     The ParametrizedScenario extends the functionalities of UrbanSensingScenario by adding
-    different ways to customized the wanted topology through detailed parameters.
+    different ways to customize the desired topology through detailed parameters.
 
-    In this case getTopology works as a static method, but it can be setup 
-    with instance level parameters
+    In this case materialize works witht static parameters, but it can be extended 
+    to use instance level parameters
     '''
 
     def materialize(self,topology: Topology):
