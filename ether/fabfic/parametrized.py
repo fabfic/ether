@@ -31,7 +31,7 @@ class ParametrizedScenario:
     The ParametrizedScenario extends the functionalities of UrbanSensingScenario by adding
     different ways to customize the desired topology through detailed parameters.
 
-    In this case materialize works witht static parameters, but it can be extended 
+    In this case materialize works with static parameters, but it can be extended 
     to use instance level parameters
     '''
 
