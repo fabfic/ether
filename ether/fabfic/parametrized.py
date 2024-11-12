@@ -158,10 +158,6 @@ class ParametrizedScenario:
 
         ########################################
 
-        topology.add(self.create_cloudlet())
+        topology.add(Cloud(backhaul=FiberToExchange()))
 
         return topology
-        
-
-    def create_cloudlet(self) -> Cloud:
-        return Cloud(backhaul=FiberToExchange())
