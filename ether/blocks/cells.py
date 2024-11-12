@@ -1,7 +1,7 @@
 import itertools
 from collections import defaultdict
 
-from ether.blocks.nodes import create_server_node
+from ether.blocks.nodes import create_server_node, create_cloud_server_node
 from ether.cell import LANCell, UpDownLink
 from ether.qos import latency
 
@@ -51,3 +51,19 @@ class Cloudlet(LANCell):
 
     def _create_rack(self):
         return LANCell([create_server_node] * self.server_per_rack, backhaul=self.switch)
+
+class Cloud(LANCell):
+    def __init__(self, server_per_rack=5, racks=1, backhaul=None) -> None:
+        self.racks = racks
+        self.server_per_rack = server_per_rack
+
+        nodes = [self._create_rack] * racks
+
+        super().__init__(nodes, backhaul=backhaul)
+
+    def _create_identity(self):
+        self.name = 'cloud'
+        self.switch = 'switch_%s' % self.name
+
+    def _create_rack(self):
+        return LANCell([create_cloud_server_node] * self.server_per_rack, backhaul=self.switch)

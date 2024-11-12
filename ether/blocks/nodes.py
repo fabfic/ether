@@ -29,6 +29,17 @@ def create_server_node(name=None) -> Node:
                            'ether.edgerun.io/model': 'server'
                        })
 
+def create_cloud_server_node(name=None) -> Node:
+    name = name if name is not None else 'cloud_server_%d' % next(counters['server'])
+
+    return create_node(name=name,
+                       cpus=88, arch='x86', mem='188G',
+                       labels={
+                           'ether.edgerun.io/type': 'server',
+                           'ether.edgerun.io/model': 'server',
+                           'locality.skippy.io/type': 'cloud'
+                       })
+
 
 def create_rpi3_node(name=None) -> Node:
     name = name if name is not None else 'rpi3_%d' % next(counters['rpi3'])
@@ -144,4 +155,5 @@ nano = create_nano
 coral = create_coral
 rpi4 = create_rpi4_node
 rockpi = create_rockpi
+cloud_server = create_cloud_server_node
 

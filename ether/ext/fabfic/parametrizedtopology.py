@@ -8,7 +8,7 @@ from ether.blocks.cells import *
 from ether.cell import *
 from ether.core import Node
 from ether.topology import Topology
-from ether.vis import draw_basic
+from ether.ext.fabfic.vis import draw_basic
 
 #Connection type between the Cloud and the first-layer clusters
 CLOUD_CLUSTER_CONNECTION: UpDownLink = FiberToExchange()
@@ -146,6 +146,10 @@ def main():
         density = NUM_NODES_PER_CLUSTER
         )
     topology.add(city)
+
+    ########################################
+
+    topology.add(Cloud(backhaul=FiberToExchange()))
 
     ########################################
 
