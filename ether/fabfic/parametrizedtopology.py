@@ -8,7 +8,7 @@ from ether.blocks.cells import *
 from ether.cell import *
 from ether.core import Node
 from ether.topology import Topology
-from ext.fabfic.vis import draw_basic
+from ether.fabfic.vis import draw_basic
 
 #Connection type between the Cloud and the first-layer clusters
 CLOUD_CLUSTER_CONNECTION: UpDownLink = FiberToExchange()
