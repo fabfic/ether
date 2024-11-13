@@ -15,7 +15,8 @@ def create_vm_node(name=None) -> Node:
                        cpus=4, arch='x86', mem='8167784Ki',
                        labels={
                            'ether.edgerun.io/type': 'vm',
-                           'ether.edgerun.io/model': 'vm'
+                           'ether.edgerun.io/model': 'vm',
+                           'locality.skippy.io/type': 'cloud'
                        })
 
 
@@ -48,7 +49,8 @@ def create_rpi3_node(name=None) -> Node:
                        cpus=4, arch='arm32', mem='999036Ki',
                        labels={
                            'ether.edgerun.io/type': 'sbc',
-                           'ether.edgerun.io/model': 'rpi3b+'
+                           'ether.edgerun.io/model': 'rpi3b+',
+                           'locality.skippy.io/type': 'edge'
                        })
 
 
@@ -59,7 +61,8 @@ def create_nuc_node(name=None) -> Node:
                        cpus=4, arch='x86', mem='16Gi',
                        labels={
                            'ether.edgerun.io/type': 'sffc',
-                           'ether.edgerun.io/model': 'nuci5'
+                           'ether.edgerun.io/model': 'nuci5',
+                           'locality.skippy.io/type': 'edge'
                        })
 
 
@@ -73,6 +76,7 @@ def create_tx2_node(name=None) -> Node:
                            'ether.edgerun.io/model': 'nvidia_jetson_tx2',
                            'ether.edgerun.io/capabilities/cuda': '10',
                            'ether.edgerun.io/capabilities/gpu': 'pascal',
+                           'locality.skippy.io/type': 'edge'
                        })
 
 
@@ -83,7 +87,8 @@ def create_rockpi(name=None) -> Node:
                        cpus=6, arch='aarch64', mem='4G',
                        labels={
                            'ether.edgerun.io/type': 'sbc',
-                           'ether.edgerun.io/model': 'rockpi4'
+                           'ether.edgerun.io/model': 'rockpi4',
+                           'locality.skippy.io/type': 'edge'
                        })
 
 
@@ -97,6 +102,7 @@ def create_rpi4_node(name=None) -> Node:
                        labels={
                            'ether.edgerun.io/type': 'sbc',
                            'ether.edgerun.io/model': 'rpi4',
+                           'locality.skippy.io/type': 'edge'
                        })
 
 
@@ -109,6 +115,7 @@ def create_coral(name=None) -> Node:
                            'ether.edgerun.io/type': 'sbc',
                            'ether.edgerun.io/model': 'coral',
                            'ether.edgerun.io/capabilities/tpu': 'edgetpu',
+                           'locality.skippy.io/type': 'edge'
     })
 
 
@@ -122,6 +129,7 @@ def create_nano(name=None) -> Node:
                            'ether.edgerun.io/model': 'nvidia_jetson_nano',
                            'ether.edgerun.io/capabilities/cuda': '10',
                            'ether.edgerun.io/capabilities/gpu': 'maxwell',
+                           'locality.skippy.io/type': 'edge'
                        })
 
 
@@ -135,6 +143,7 @@ def create_nx(name=None) -> Node:
                            'ether.edgerun.io/model': 'nvidia_jetson_nx',
                            'ether.edgerun.io/capabilities/cuda': '10',
                            'ether.edgerun.io/capabilities/gpu': 'volta',
+                           'locality.skippy.io/type': 'edge'
                        })
 
 def create_custom_node(cpus: int, mem: str, arch: str, labels: Dict[str, str],name=None) -> Node:

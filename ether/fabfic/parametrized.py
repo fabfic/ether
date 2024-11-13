@@ -66,6 +66,7 @@ class ParametrizedScenario:
         # labels = {
         #     'ether.edgerun.io/type': 'sbc',
         #     'ether.edgerun.io/model': 'rpi4',
+        #     'locality.skippy.io/type': 'edge'
         # }
 
         # neighborhood = lambda size: Cluster(
