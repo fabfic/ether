@@ -113,6 +113,17 @@ class ParametrizedScenario:
 
         ########################################
 
+        # #Variable range of nodes and FIXED number of clusters
+
+        # city = GeoCell(
+        # size = GEOCELL_SIZE,
+        # nodes = [neighborhood],
+        # density = random.randint(1, NODE_RANGE),
+        # rand_nodes = RAND_NUM_NODES
+        # )
+
+        ########################################
+
         #Comment this out if you're using unique clusters down below
         #topology.add(city)
 
